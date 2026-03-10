@@ -1,140 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from 'react'
+import Container from './Container'
+import Logo from "../../public/Layer_1.png"
+import { Cart, Search } from './Svg/SvgContainer'
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const [serviceOpen, setServiceOpen] = useState(false); // for mobile submenu
-  const menuRef = useRef(null);
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [open]);
-
   return (
-    <nav className="w-full bg-white shadow sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-
-        {/* Logo */}
-        <h1 className="text-2xl font-bold">MyLogo</h1>
-
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-8">
-          <ul className="flex items-center gap-8 text-lg font-medium">
-
-            <li className="cursor-pointer hover:text-blue-600 transition">Home</li>
-            <li className="cursor-pointer hover:text-blue-600 transition">About</li>
-
-            {/* Services Dropdown */}
-            <li className="relative group">
-              <span className="cursor-pointer hover:text-blue-600 transition">
-                Services
-              </span>
-              <span className="text-black">{serviceOpen ? "▲" : "▼"}</span>
-
-              {/* Dropdown */}
-              <div
-                className="
-                absolute left-0 mt-2 w-44 bg-white shadow-md rounded-md p-3
-                opacity-0 invisible group-hover:opacity-100 group-hover:visible
-                translate-y-2 group-hover:translate-y-0
-                transition-all duration-300
-              "
-              >
-                <ul className="flex flex-col gap-2 text-base">
-                  <li className="hover:text-blue-600 cursor-pointer transition">Web Development</li>
-                  <li className="hover:text-blue-600 cursor-pointer transition">UI/UX Design</li>
-                  <li className="hover:text-blue-600 cursor-pointer transition">SEO Optimization</li>
-                </ul>
-              </div>
-            </li>
-
-            <li className="cursor-pointer hover:text-blue-600 transition">Blog</li>
-          </ul>
-
-          {/* Desktop Buttons */}
-          <div className="flex items-center gap-4">
-            <button className="px-4 py-2 rounded-md border border-blue-600 text-blue-600 font-medium hover:bg-blue-50 transition">
-              Contact
+    <nav className='py-5'>
+      <Container>
+        <div className="flex gap-20 items-center px-30">
+          <figure><img src={Logo} alt="Logo" /></figure>
+          <div className="w-full relative">
+            <input type="text" placeholder='Select sticker type...' className='py-2 px-5 w-full rounded-3xl border border-white/10 bg-white/3 backdrop-blur-[10px] outline-0 font-normal placeholder:text-white text-white' />
+            <Search className="absolute top-1/2 -translate-y-1/2 right-5 cursor-pointer" />
+          </div>
+          <div className="flex gap-7.5 items-center shrink-0">
+            <button className="rounded-[24px] bg-[#6B41F6] shadow-[0_5px_0_0_#5135AF] px-4 py-2 cursor-pointer text-white font-bold text-base transition-all duration-200 hover:bg-[#5a34d6] hover:translate-y-[1px] active:translate-y-[3px] active:shadow-[0_2px_0_0_#5135AF]">
+              Signup
             </button>
-            <button className="px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
-              Login
-            </button>
+            <Cart />
           </div>
         </div>
-
-        {/* Mobile Button */}
-        <button onClick={() => setOpen(true)} className="lg:hidden text-2xl">☰</button>
-      </div>
-
-      {/* Overlay */}
-      {open && <div className="fixed inset-0 bg-black/40 lg:hidden"></div>}
-
-      {/* Mobile Sidebar */}
-      <div
-        ref={menuRef}
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg
-          transform ${open ? "translate-x-0" : "-translate-x-full"}
-          transition-all duration-300 ease-in-out z-50`}
-      >
-        <div className="p-4 flex items-center justify-between border-b">
-          <h2 className="text-xl font-semibold">Menu</h2>
-          <button onClick={() => setOpen(false)} className="text-2xl">✕</button>
-        </div>
-
-        {/* Mobile Menu Items */}
-        <ul className="p-4 flex flex-col gap-6 text-lg font-medium">
-
-          <li className="cursor-pointer hover:text-blue-600 transition">Home</li>
-          <li className="cursor-pointer hover:text-blue-600 transition">About</li>
-
-          {/* Mobile collapsible dropdown */}
-          <li>
-            <div
-              onClick={() => setServiceOpen(!serviceOpen)}
-              className="flex items-center justify-between cursor-pointer hover:text-blue-600 transition"
-            >
-              <span>Services</span>
-              <span className="text-black">{serviceOpen ? "▲" : "▼"}</span>
-            </div>
-
-            <div
-              className={`overflow-hidden transition-all duration-300 ${serviceOpen ? "max-h-40 mt-2" : "max-h-0"}`}
-            >
-              <ul className="flex flex-col gap-2 pl-4 text-base">
-                <li className="cursor-pointer hover:text-blue-600 transition">Web Development</li>
-                <li className="cursor-pointer hover:text-blue-600 transition">UI/UX Design</li>
-                <li className="cursor-pointer hover:text-blue-600 transition">SEO Optimization</li>
-              </ul>
-            </div>
-          </li>
-
-          <li className="cursor-pointer hover:text-blue-600 transition">Blog</li>
-        </ul>
-
-        {/* Mobile Buttons */}
-        <div className="px-4 mt-6 flex flex-col gap-3">
-          <button className="px-4 py-2 rounded-md border border-blue-600 text-blue-600 font-medium hover:bg-blue-50 transition">
-            Contact
-          </button>
-          <button className="px-4 py-2 rounded-md bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
-            Login
-          </button>
-        </div>
-      </div>
+      </Container>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

@@ -1,10 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/Home";
-import RootLayout from "../Layout/RootLayout";
 import React from "react";
+import Home from "../pages/Home";
+import RootLayout from "../Layout/MainLayout";
+import AuthLayout from "../Layout/AuthLayout";
+import { createBrowserRouter } from "react-router-dom";
+import Signup from "../Pages/AuthPages/Signup";
 
 
 const router = createBrowserRouter([
+  // Main website layout
   {
     path: "/",
     element: <RootLayout />,
@@ -13,11 +16,28 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
+    ],
+  },
+
+  // Auth layout
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
       {
-        path: "*",
-        element: <h1>404 - Page Not Found</h1>,
+        path: "/auth/login",
+        element: <Signup />,
+      },
+      {
+        path: "register",
+        // element: <Register />,
       },
     ],
+  },
+
+  {
+    path: "*",
+    element: <h1>404 - Page Not Found</h1>,
   },
 ]);
 
